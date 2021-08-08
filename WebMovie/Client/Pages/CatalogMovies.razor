@@ -11,18 +11,18 @@
             {
                 var poster = string.Concat("https://image.tmdb.org/t/p/w500", item.poster_path);
                 <div class="col-md-4">
-                    <div class="card-deck" data-target="#DetailMovie">
-                        <div class="card" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
+                    <div class="cards-deck">
+                        <div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
                             <div class="card-header">
                                 @item.title
                             </div>
-                            <a data-toggle="modal" data-id="@item.title" data-detail-movie="@item.overview" href="#DetailMovie">
-                                <img class="card-img-top" src="@poster" alt="@item.title">
+                            <a>
+                                <img class="cards-img-top" src="@poster" alt="@item.title">
                             </a>
-                            <div class="card-body">
-                                <p class="card-text">@item.overview</p>
+                            <div class="cards-body">
+                                <p class="cards-text">@item.overview</p>
                             </div>
-                            <div class="card-footer">
+                            <div class="cards-footer">
                                 Release Date: @item.release_date
                             </div>
                         </div>
