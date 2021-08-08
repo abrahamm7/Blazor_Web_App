@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMovie.Shared;
 
-namespace WebMovie.Server.Services
+namespace WebMovie.Client.Services
 {
     public interface IPopularMovieServices
     {

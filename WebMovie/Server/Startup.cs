@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
-using WebMovie.Server.Services;
 
 namespace WebMovie.Server
 {
@@ -26,7 +25,6 @@ namespace WebMovie.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddScoped<IPopularMovieServices, PopularMovieServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿@page "/catalogmovies"
 @using WebMovie.Shared
 @inject HttpClient Http
+@inject IPopularMovieServices popularMovies
 
 <h3>CatalogMovies</h3>
 @foreach (var item in movies)
@@ -9,11 +10,11 @@
 }
 
 @code {
-    private List<Result> movies;
+    List<Result> movies = new List<Result>();
 
     protected override async Task OnInitializedAsync()
     {
-        movies = await Http.GetFromJsonAsync<List<Result>>("PopularMovies");
+        movies = await popularMovies.GetPopularMovies();
     }
 
 }

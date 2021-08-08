@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebMovie.Server.Services;
 using WebMovie.Shared;
 
 namespace WebMovie.Server.Controllers
@@ -13,23 +14,21 @@ namespace WebMovie.Server.Controllers
     [Route("[controller]")]
     public class PopularMoviesController : ControllerBase
     {
-        readonly IPopularMovieServices _popularMovieServices;
-
-        public PopularMoviesController(IPopularMovieServices popularMovieServices)
-        {
-            _popularMovieServices = popularMovieServices;
-        }
-        
-        //public async Task<List<Result>> GetMovies()
-        //{
-        //    var movieList = _popularMovieServices.GetPopularMovies().Result;
-        //    return movieList;
-        //}
-
         public async Task<IActionResult> GetMovies()
         {
-            var movieList = _popularMovieServices.GetPopularMovies().Result;
-            return Ok(movieList);
+            try
+            {
+                var client = new RestClient(Constants.Requests.baseUrl);
+                var request = new RestRequest(Constants.Requests.popularUrl, Method.GET);
+                var response = client.ExecuteAsync(request).Result.Content;
+                var content = JsonConvert.DeserializeObject<Movies>(response);
+                return Ok(content.results);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
     }
 }
