@@ -1,0 +1,19 @@
+﻿@page "/catalogmovies"
+@using WebMovie.Shared
+@inject HttpClient Http
+
+<h3>CatalogMovies</h3>
+@foreach (var item in movies)
+{
+    <p>@item.title</p>
+}
+
+@code {
+    private List<Result> movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await Http.GetFromJsonAsync<List<Result>>("PopularMovies");
+    }
+
+}
