@@ -1,13 +1,37 @@
-﻿@page "/catalogmovies"
+﻿@page "/"
+@page "/catalogmovies"
 @using WebMovie.Shared
 @inject HttpClient Http
 @inject IPopularMovieServices popularMovies
 
-<h3>CatalogMovies</h3>
-@foreach (var item in movies)
-{
-    <p>@item.title</p>
-}
+<div class="py-5">
+    <div class="container">
+        <div class="row hidden-md-up">
+            @foreach (var item in movies)
+            {
+                var poster = string.Concat("https://image.tmdb.org/t/p/w500", item.poster_path);
+                <div class="col-md-4">
+                    <div class="card-deck" data-target="#DetailMovie">
+                        <div class="card" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
+                            <div class="card-header">
+                                @item.title
+                            </div>
+                            <a data-toggle="modal" data-id="@item.title" data-detail-movie="@item.overview" href="#DetailMovie">
+                                <img class="card-img-top" src="@poster" alt="@item.title">
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">@item.overview</p>
+                            </div>
+                            <div class="card-footer">
+                                Release Date: @item.release_date
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 @code {
     List<Result> movies = new List<Result>();
