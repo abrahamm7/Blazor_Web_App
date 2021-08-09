@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMovie.Server", "WebMovie\Server\WebMovie.Server.csproj", "{57E412C8-0DCC-4308-A83C-60F608D8B0BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMovie.Server", "WebMovie\Server\WebMovie.Server.csproj", "{57E412C8-0DCC-4308-A83C-60F608D8B0BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMovie.Client", "WebMovie\Client\WebMovie.Client.csproj", "{CAB37E87-AE1C-402D-BF91-3C0FB8C51C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMovie.Client", "WebMovie\Client\WebMovie.Client.csproj", "{CAB37E87-AE1C-402D-BF91-3C0FB8C51C82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMovie.Shared", "WebMovie\Shared\WebMovie.Shared.csproj", "{6222411F-4F19-4AFC-9C8B-CE093C6F3581}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMovie.Shared", "WebMovie\Shared\WebMovie.Shared.csproj", "{6222411F-4F19-4AFC-9C8B-CE093C6F3581}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
