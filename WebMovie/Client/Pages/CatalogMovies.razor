@@ -4,8 +4,15 @@
 @inject HttpClient Http
 @inject IPopularMovieServices popularMovies
 
+
 <div class="py-5">
     <div class="container">
+        @if (showAlert)
+        {
+            <div class="alert alert-success" role="alert">
+                @MovieDetail.title was added successfully to the list!
+            </div>
+        }
         <div class="row hidden-md-up">
             @foreach (var item in movies)
             {
@@ -29,40 +36,43 @@
         </div>
     </div>
 </div>
-<Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(0.5)" Delay="TimeSpan.FromSeconds(1)">
-    @if (showModal)
-    {
-        <div class="modal fade show" id="myModal" style="display:block" aria-modal="true" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">@movieTitle</h4>
-                        <button type="button" class="close" @onclick="@ModalCancel">&times;</button>
-                    </div>
+@if (showModal)
+{
+    <div class="modal fade show" id="myModal" style="display: block; overflow-y: scroll;" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <p>@movieOverview</p>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn" @onclick="@ModalCancel">Cancel</button>
-                    </div>
-
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">@MovieDetail.title</h4>
+                    <button type="button" class="close" @onclick="@ModalCancel">&times;</button>
                 </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <img class="cards-img-top" src="@MovieDetail.poster_path" alt="Poster">
+                    <p>@MovieDetail.overview</p>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" @onclick="@ModalCancel">Cancel</button>
+                    <button type="button" class="btn btn-success" @onclick="@(() => AddToPlaylist(MovieDetail))">Add to playlist</button>
+                </div>
+
             </div>
         </div>
-    }
-</Animate>
+    </div>
+}
+
 
 @code {
     List<Result> movies = new List<Result>();
+    List<Result> moviesPlaylist = new List<Result>();
+    Result MovieDetail = new Result();
     bool showModal = false;
-    public string movieTitle = "";
-    public string movieOverview = "";
+    bool showAlert = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,8 +83,15 @@
 
     public void OpenDetailMovie(Result movie)
     {
-        movieTitle = movie.title;
-        movieOverview = movie.overview;
+        MovieDetail.title = movie.title;
+        MovieDetail.overview = movie.overview;
+        MovieDetail.poster_path = string.Concat("https://image.tmdb.org/t/p/w500", movie.poster_path);
         showModal = true;
+    }
+
+    public void AddToPlaylist(Result movie)
+    {
+        moviesPlaylist.Add(movie);
+        showAlert = true;        
     }
 }
