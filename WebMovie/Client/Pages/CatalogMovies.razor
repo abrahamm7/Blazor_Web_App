@@ -3,7 +3,6 @@
 @using WebMovie.Shared
 @inject HttpClient Http
 @inject IPopularMovieServices popularMovies
-@inject IModalService modal
 
 <div class="py-5">
     <div class="container">
@@ -17,7 +16,7 @@
                             <div class="card-header">
                                 @item.title
                             </div>
-                            <a @onclick="args => TapElement(item)" role="presentation" href="#detailPop" data-target="#detailPop" data-toggle="modal">
+                            <a @onclick="@(() => OpenDetailMovie(item))" role="presentation">
                                 <img class="cards-img-top" src="@poster" alt="@item.title">
                             </a>
                             <div class="cards-footer">
@@ -32,20 +31,22 @@
 </div>
 
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; }
     List<Result> movies = new List<Result>();
-
-    private string title = "";
-    private string overview = "";
 
     protected override async Task OnInitializedAsync()
     {
         movies = await popularMovies.GetPopularMovies();
     }
 
-    public void TapElement(Result movie)
+    public void OpenDetailMovie(Result movie)
     {
-        var title = movie.title;
-        var description = movie.overview;
-    }
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(DetailMovie.Title), movie.title);
+        parameters.Add(nameof(DetailMovie.Overview), movie.overview);
 
+        var pop = Modal.Show<DetailMovie>("Details movies", parameters);
+        var result = pop.Result;
+
+    }
 }
