@@ -29,24 +29,52 @@
         </div>
     </div>
 </div>
+<Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(0.5)" Delay="TimeSpan.FromSeconds(1)">
+    @if (showModal)
+    {
+        <div class="modal fade show" id="myModal" style="display:block" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">@movieTitle</h4>
+                        <button type="button" class="close" @onclick="@ModalCancel">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <p>@movieOverview</p>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn" @onclick="@ModalCancel">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</Animate>
 
 @code {
-    [CascadingParameter] public IModalService Modal { get; set; }
     List<Result> movies = new List<Result>();
+    bool showModal = false;
+    public string movieTitle = "";
+    public string movieOverview = "";
 
     protected override async Task OnInitializedAsync()
     {
         movies = await popularMovies.GetPopularMovies();
     }
 
+    void ModalCancel() => showModal = false;
+
     public void OpenDetailMovie(Result movie)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(DetailMovie.Title), movie.title);
-        parameters.Add(nameof(DetailMovie.Overview), movie.overview);
-
-        var pop = Modal.Show<DetailMovie>("Details movies", parameters);
-        var result = pop.Result;
-
+        movieTitle = movie.title;
+        movieOverview = movie.overview;
+        showModal = true;
     }
 }
