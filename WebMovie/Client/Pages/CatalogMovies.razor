@@ -7,12 +7,6 @@
 
 <div class="py-5">
     <div class="container">
-        @if (showAlert)
-        {
-            <div class="alert alert-success" role="alert">
-                @MovieDetail.title was added successfully to the list!
-            </div>
-        }
         <div class="row hidden-md-up">
             @foreach (var item in movies)
             {
@@ -37,15 +31,14 @@
     </div>
 </div>
 
-@if (showModal)
-{
+
     <DetailsMovies titleMovie="@MovieDetail.title" 
                    overviewMovie="@MovieDetail.overview" 
                    posterMovie="@MovieDetail.poster_path" 
                    showAlert="@showAlert" 
                    showModal="@showModal">
     </DetailsMovies>
-}
+
 
 
 @code {

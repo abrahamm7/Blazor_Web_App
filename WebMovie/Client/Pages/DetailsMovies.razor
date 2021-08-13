@@ -1,5 +1,4 @@
-﻿@*@page "/details"*@
-@using WebMovie.Shared
+﻿@using WebMovie.Shared
 @if (showModal)
 {
     <div class="modal fade show" id="myModal" style="display: block; overflow-y: scroll;" aria-modal="true" role="dialog">
@@ -48,7 +47,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //movies = await popularMovies.GetPopularMovies();
+
     }
 
     void ModalCancel() => showModal = false;
