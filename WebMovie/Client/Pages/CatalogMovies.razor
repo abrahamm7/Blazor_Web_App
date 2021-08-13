@@ -39,32 +39,12 @@
 
 @if (showModal)
 {
-    <DetailsMovies titleMovie="@MovieDetail.title" overviewMovie="@MovieDetail.overview" posterMovie="@MovieDetail.poster_path" showAlert="@showAlert" showModal="@showModal"></DetailsMovies>
-    <!--<div class="modal fade show" id="myModal" style="display: block; overflow-y: scroll;" aria-modal="true" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">-->
-
-                <!-- Modal Header -->
-                <!--<div class="modal-header">
-                    <h4 class="modal-title">@MovieDetail.title</h4>
-                    <button type="button" class="close" @onclick="@ModalCancel">&times;</button>
-                </div>-->
-
-                <!-- Modal body -->
-                <!--<div class="modal-body">
-                    <img class="cards-img-top" src="@MovieDetail.poster_path" alt="Poster">
-                    <p>@MovieDetail.overview</p>
-                </div>-->
-
-                <!-- Modal footer -->
-                <!--<div class="modal-footer">
-                    <button type="button" class="btn btn-info" @onclick="@ModalCancel">Cancel</button>
-                    <button type="button" class="btn btn-success" @onclick="@(() => AddToPlaylist(MovieDetail))">Set as favorite</button>
-                </div>
-
-            </div>
-        </div>
-    </div>-->
+    <DetailsMovies titleMovie="@MovieDetail.title" 
+                   overviewMovie="@MovieDetail.overview" 
+                   posterMovie="@MovieDetail.poster_path" 
+                   showAlert="@showAlert" 
+                   showModal="@showModal">
+    </DetailsMovies>
 }
 
 
