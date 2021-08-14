@@ -45,11 +45,6 @@
     [Parameter]
     public bool showAlert { get; set; } = false;
 
-    protected override async Task OnInitializedAsync()
-    {
-
-    }
-
     void ModalCancel() => showModal = false;
 
     public void OpenDetailMovie(Result movie)
