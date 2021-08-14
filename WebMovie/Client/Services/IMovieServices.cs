@@ -6,8 +6,9 @@ using WebMovie.Shared;
 
 namespace WebMovie.Client.Services
 {
-    public interface IPopularMovieServices
+    public interface IMovieServices
     {
         Task<List<Result>> GetPopularMovies();
+        Task<List<Result>> GetUpcomingMovies();
     }
 }

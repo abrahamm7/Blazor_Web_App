@@ -8,11 +8,11 @@ using WebMovie.Shared;
 
 namespace WebMovie.Client.Services
 {
-    public class PopularMovieServices : IPopularMovieServices
+    public class MovieServices : IMovieServices
     {
         readonly HttpClient _httpClient;
 
-        public PopularMovieServices(HttpClient httpClient)
+        public MovieServices(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -20,6 +20,11 @@ namespace WebMovie.Client.Services
         public async Task<List<Result>> GetPopularMovies()
         {
             return await _httpClient.GetFromJsonAsync<List<Result>>("PopularMovies");
+        }
+
+        public async Task<List<Result>> GetUpcomingMovies()
+        {
+            return await _httpClient.GetFromJsonAsync<List<Result>>("UpcomingMovies");
         }
     }
 }

@@ -2,43 +2,88 @@
 @page "/catalogmovies"
 @using WebMovie.Shared
 @inject HttpClient Http
-@inject IPopularMovieServices popularMovies
+@inject IMovieServices _moviesServices
 
 
 <div class="py-5">
     <div class="container">
+        <RadzenDropDown AllowClear="true" Placeholder="Filter" TValue="string" AllowVirtualization="true" Style="width:300px"
+                        AllowFiltering="true" Data=@types
+                        Change=@(args => OnChange(args, "Filter")) />
+        <br />
+        <br />
+        <br />
         <div class="row hidden-md-up">
-            @foreach (var item in movies)
+            @if (showPopular)
             {
-                var poster = string.Concat("https://image.tmdb.org/t/p/w500", item.poster_path);
-                <div class="col-md-4">
-                    <div class="cards-deck">
-                        <div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
-                            <div class="card-header">
-                                @item.title
-                            </div>
-                            <a @onclick="@(() => OpenDetailMovie(item))" role="presentation">
-                                <img class="cards-img-top" src="@poster" alt="@item.title">
-                            </a>
-                            <div class="cards-footer" style="height:120px">
-                                <p style="font-size:12px; font-weight:bold">Release Date:<span>@item.release_date</span></p>
-                                <p style="font-size:12px; font-weight:bold">Rating:</p>
-                                <RadzenArcGauge Style="width: 100px; height: 100px;">
-                                    <RadzenArcGaugeScale Min="0" Max="10" X="0.2" Y="0.18">
-                                        <RadzenArcGaugeScaleValue Value=@item.vote_average Fill="#80b918">
-                                            <Template Context="value">
-                                                <h4 style="font-size:11px;">
-                                                    @value.Value
-                                                </h4>
-                                            </Template>
-                                        </RadzenArcGaugeScaleValue>
-                                    </RadzenArcGaugeScale>
-                                </RadzenArcGauge>
+                @foreach (var item in popularMoviesList)
+                {
+                    var poster = string.Concat("https://image.tmdb.org/t/p/w500", item.poster_path);
+                    <div class="col-md-4">
+                        <div class="cards-deck">
+                            <div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
+                                <div class="card-header">
+                                    @item.title
+                                </div>
+                                <a @onclick="@(() => OpenDetailMovie(item))" role="presentation">
+                                    <img class="cards-img-top" src="@poster" alt="@item.title">
+                                </a>
+                                <div class="cards-footer" style="height:120px">
+                                    <p style="font-size:12px; font-weight:bold">Release Date:<span>@item.release_date</span></p>
+                                    <p style="font-size:12px; font-weight:bold">Rating:</p>
+                                    <RadzenArcGauge Style="width: 100px; height: 100px;">
+                                        <RadzenArcGaugeScale Min="0" Max="10" X="0.2" Y="0.18">
+                                            <RadzenArcGaugeScaleValue Value=@item.vote_average Fill="#80b918">
+                                                <Template Context="value">
+                                                    <h4 style="font-size:11px;">
+                                                        @value.Value
+                                                    </h4>
+                                                </Template>
+                                            </RadzenArcGaugeScaleValue>
+                                        </RadzenArcGaugeScale>
+                                    </RadzenArcGauge>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             }
+
+            @if (showUpcoming)
+            {
+                @foreach (var item in upcomingMoviesList)
+                {
+                    var poster = string.Concat("https://image.tmdb.org/t/p/w500", item.poster_path);
+                    <div class="col-md-4">
+                        <div class="cards-deck">
+                            <div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
+                                <div class="card-header">
+                                    @item.title
+                                </div>
+                                <a @onclick="@(() => OpenDetailMovie(item))" role="presentation">
+                                    <img class="cards-img-top" src="@poster" alt="@item.title">
+                                </a>
+                                <div class="cards-footer" style="height:120px">
+                                    <p style="font-size:12px; font-weight:bold">Release Date:<span>@item.release_date</span></p>
+                                    <p style="font-size:12px; font-weight:bold">Rating:</p>
+                                    <RadzenArcGauge Style="width: 100px; height: 100px;">
+                                        <RadzenArcGaugeScale Min="0" Max="10" X="0.2" Y="0.18">
+                                            <RadzenArcGaugeScaleValue Value=@item.vote_average Fill="#80b918">
+                                                <Template Context="value">
+                                                    <h4 style="font-size:11px;">
+                                                        @value.Value
+                                                    </h4>
+                                                </Template>
+                                            </RadzenArcGaugeScaleValue>
+                                        </RadzenArcGaugeScale>
+                                    </RadzenArcGauge>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
         </div>
     </div>
 </div>
@@ -55,19 +100,41 @@
 
 @code {
 
-    List<Result> movies = new List<Result>();
-    List<Result> moviesPlaylist = new List<Result>();
+    List<Result> popularMoviesList = new List<Result>();
+    List<Result> upcomingMoviesList = new List<Result>();
+    List<string> types = new List<string>();
     Result MovieDetail = new Result();
     bool showModal = false;
+    bool showPopular = true;
+    bool showUpcoming = false;
     bool showAlert = false;
 
 
     protected override async Task OnInitializedAsync()
     {
-        movies = await popularMovies.GetPopularMovies();
+        popularMoviesList = await _moviesServices.GetPopularMovies();
+        upcomingMoviesList = await _moviesServices.GetUpcomingMovies();
+        FillArray();
     }
 
     void ModalCancel() => showModal = false;
+
+    void OnChange(object value, string name)
+    {
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+        if (value.ToString() == "Popular")
+        {
+            showPopular = true;
+            showUpcoming = false;
+        }
+        else
+        {
+            showUpcoming = true;
+            showPopular = false;
+        }
+
+
+    }
 
     public void OpenDetailMovie(Result movie)
     {
@@ -79,7 +146,12 @@
 
     public void AddToPlaylist(Result movie)
     {
-        moviesPlaylist.Add(movie);
         showAlert = true;
+    }
+
+    public void FillArray()
+    {
+        types.Add("Popular");
+        types.Add("Upcoming");
     }
 }
