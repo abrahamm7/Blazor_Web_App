@@ -10,5 +10,6 @@ namespace WebMovie.Client.Services
     {
         Task<List<Result>> GetPopularMovies();
         Task<List<Result>> GetUpcomingMovies();
+        Task<MovieDetails> GetMovie(int id);
     }
 }

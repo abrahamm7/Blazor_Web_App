@@ -27,9 +27,9 @@ namespace WebMovie.Client.Services
             return await _httpClient.GetFromJsonAsync<List<Result>>("UpcomingMovies");
         }
 
-        public async Task<MovieDetails> GetMovie()
+        public async Task<MovieDetails> GetMovie(int id)
         {
-            return await _httpClient.GetFromJsonAsync<MovieDetails>("FindMovies");
+            return await _httpClient.GetFromJsonAsync<MovieDetails>($"FindMovies/{id}");
         }
     }
 }

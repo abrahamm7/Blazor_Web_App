@@ -10,7 +10,7 @@ using WebMovie.Shared;
 namespace WebMovie.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/{id}")]
     public class FindMoviesController : ControllerBase
     {
         public async Task<IActionResult> GetMovie(int id)

@@ -1,8 +1,9 @@
-﻿@page "/detailmovie/{id}"
+﻿@page "/detailmovie/{id:int}"
 @using WebMovie.Shared
 @inject HttpClient Http
 @inject IMovieServices _moviesServices
 
+<h3>@MovieDetails.Title</h3>
 <div style="background-image: src(@backgroundPath)">
 
 </div>
@@ -12,16 +13,13 @@
     [Parameter]
     public int id { get; set; }
 
-    public string titleMovie { get; set; }
+    MovieDetails MovieDetails = new MovieDetails();
 
-    public string overviewMovie { get; set; }
-
-    public string posterMovie { get; set; }
-
-    public string backgroundPath { get; set; }
+    public string backgroundPath { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
-        
+        MovieDetails = await _moviesServices.GetMovie(id);
+        backgroundPath = string.Concat("https://image.tmdb.org/t/p/w500", MovieDetails.backdrop_path);
     }
 }
