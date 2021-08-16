@@ -1,0 +1,27 @@
+﻿@page "/detailmovie/{id}"
+@using WebMovie.Shared
+@inject HttpClient Http
+@inject IMovieServices _moviesServices
+
+<div style="background-image: src(@backgroundPath)">
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+
+    public string titleMovie { get; set; }
+
+    public string overviewMovie { get; set; }
+
+    public string posterMovie { get; set; }
+
+    public string backgroundPath { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+}
