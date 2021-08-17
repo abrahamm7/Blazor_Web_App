@@ -8,7 +8,8 @@
 
 <div class="py-5">
     <div class="container">
-        <RadzenDropDown AllowClear="true" Placeholder="Filter" TValue="string" AllowVirtualization="true" Style="width:300px"
+        <p>Filters:</p>
+        <RadzenDropDown AllowClear="true" Placeholder="Choose one" TValue="string" AllowVirtualization="true" Style="width:300px"
                         AllowFiltering="true" Data=@types
                         Change=@(args => OnChange(args, "Filter")) />
         <br />
@@ -23,27 +24,12 @@
                     <div class="col-md-4">
                         <div class="cards-deck">
                             <a @onclick="@(() => informationMovies(item))">
-                                <div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
-                                    <div class="card-header">
-                                        @item.title
-                                    </div>
-                                    <img class="cards-img-top" src="@poster" alt="@item.title">
-                                    <div class="cards-footer" style="height:120px">
-                                        <p style="font-size:12px; font-weight:bold">Release Date:<span>@item.release_date</span></p>
-                                        <p style="font-size:12px; font-weight:bold">Rating:</p>
-                                        <RadzenArcGauge Style="width: 100px; height: 100px;">
-                                            <RadzenArcGaugeScale Min="0" Max="10" X="0.2" Y="0.18">
-                                                <RadzenArcGaugeScaleValue Value=@item.vote_average Fill="#80b918">
-                                                    <Template Context="value">
-                                                        <h4 style="font-size:11px;">
-                                                            @value.Value
-                                                        </h4>
-                                                    </Template>
-                                                </RadzenArcGaugeScaleValue>
-                                            </RadzenArcGaugeScale>
-                                        </RadzenArcGauge>
-                                    </div>
-                                </div>
+                                <CardMovies titleMovie="@item.title" 
+                                            overviewMovie="@item.overview" 
+                                            posterMovie="@poster" 
+                                            ratingMovie="@item.vote_average" 
+                                            releaseMovie="@item.release_date">
+                                </CardMovies>
                             </a>
                         </div>
                     </div>
@@ -58,27 +44,12 @@
                     <div class="col-md-4">
                         <div class="cards-deck">
                             <a @onclick="@(() => informationMovies(item))">
-                                <div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
-                                    <div class="card-header">
-                                        @item.title
-                                    </div>
-                                    <img class="cards-img-top" src="@poster" alt="@item.title">
-                                    <div class="cards-footer" style="height:120px">
-                                        <p style="font-size:12px; font-weight:bold">Release Date:<span>@item.release_date</span></p>
-                                        <p style="font-size:12px; font-weight:bold">Rating:</p>
-                                        <RadzenArcGauge Style="width: 100px; height: 100px;">
-                                            <RadzenArcGaugeScale Min="0" Max="10" X="0.2" Y="0.18">
-                                                <RadzenArcGaugeScaleValue Value=@item.vote_average Fill="#80b918">
-                                                    <Template Context="value">
-                                                        <h4 style="font-size:11px;">
-                                                            @value.Value
-                                                        </h4>
-                                                    </Template>
-                                                </RadzenArcGaugeScaleValue>
-                                            </RadzenArcGaugeScale>
-                                        </RadzenArcGauge>
-                                    </div>
-                                </div>
+                                <CardMovies titleMovie="@item.title"
+                                            overviewMovie="@item.overview"
+                                            posterMovie="@poster"
+                                            ratingMovie="@item.vote_average"
+                                            releaseMovie="@item.release_date">
+                                </CardMovies>
                             </a>
                         </div>
                     </div>
@@ -95,7 +66,7 @@
     List<Result> upcomingMoviesList = new List<Result>();
     List<string> types = new List<string>();
     Result MovieDetail = new Result();
-    Constants Constants;
+    Constants Constants = new Constants();
     bool showPopular = true;
     bool showUpcoming = false;
 

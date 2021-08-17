@@ -3,9 +3,11 @@
 @inject HttpClient Http
 @inject IMovieServices _moviesServices
 
-<h3>@MovieDetails.Title</h3>
-<div style="background-image: src(@backgroundPath)">
 
+<div style="background-image: url(@backgroundPath);  background-repeat: no-repeat;">
+    <div>
+        <img src="@posterPath"/>
+    </div>
 </div>
 
 @code {
@@ -17,9 +19,12 @@
 
     public string backgroundPath { get; set; } = "";
 
+    public string posterPath { get; set; } = "";
+
     protected override async Task OnInitializedAsync()
     {
         MovieDetails = await _moviesServices.GetMovie(id);
         backgroundPath = string.Concat("https://image.tmdb.org/t/p/w500", MovieDetails.backdrop_path);
+        posterPath = string.Concat("https://image.tmdb.org/t/p/w500", MovieDetails.poster_path);
     }
 }

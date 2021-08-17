@@ -1,0 +1,46 @@
+﻿@using WebMovie.Shared
+<div class="cards" style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.5s;">
+    <div class="card-header">
+        @MovieDetail.title
+    </div>
+    <img class="cards-img-top" src="@MovieDetail.poster_path" alt="@titleMovie">
+    <div class="cards-footer" style="height:120px">
+        <p style="font-size:12px; font-weight:bold">Release Date:<span>@MovieDetail.release_date</span></p>
+        <p style="font-size:12px; font-weight:bold">Rating:</p>
+        <RadzenArcGauge Style="width: 100px; height: 100px;">
+            <RadzenArcGaugeScale Min="0" Max="10" X="0.2" Y="0.18">
+                <RadzenArcGaugeScaleValue Value=@MovieDetail.vote_average Fill="#80b918">
+                    <Template Context="value">
+                        <h4 style="font-size:11px;">
+                            @value.Value
+                        </h4>
+                    </Template>
+                </RadzenArcGaugeScaleValue>
+            </RadzenArcGaugeScale>
+        </RadzenArcGauge>
+    </div>
+</div>
+
+@code {
+    Result MovieDetail = new Result();
+
+    [Parameter]
+    public string titleMovie { get; set; }
+    [Parameter]
+    public string overviewMovie { get; set; }
+    [Parameter]
+    public double ratingMovie { get; set; }
+    [Parameter]
+    public string releaseMovie { get; set; }
+    [Parameter]
+    public string posterMovie { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MovieDetail.title = titleMovie;
+        MovieDetail.overview = overviewMovie;
+        MovieDetail.release_date = releaseMovie;
+        MovieDetail.vote_average = ratingMovie;
+        MovieDetail.poster_path = posterMovie;
+    }
+}
